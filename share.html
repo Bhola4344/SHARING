@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Photo Transfer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.container {
+    max-width: 480px;
+    margin: auto;
+    width: 100%;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+h2 {
+    margin: 0;
+    font-weight: 600;
+    color: #111827;
+    font-size: 20px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+.upload-box {
+    border: 2px dashed #2563eb;
+    border-radius: 14px;
+    padding: 16px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.upload-box:hover {
+    background: #e0ecff;
+    transform: scale(1.02);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.main-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37,99,235,0.4);
+}
+
+.gallery {
+    margin-top: 18px;
+}
+
+.photo-card {
+    background: white;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+    animation: slideUp 0.4s ease;
+}
+
+.photo-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 14px 26px rgba(0,0,0,0.18);
+}
+
+.photo-card img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+.btn-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+}
+
+.download-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(34,197,94,0.4);
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    transition: all 0.25s ease;
+}
+
+.copy-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(245,158,11,0.4);
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+}
+
+.delete-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(239,68,68,0.4);
+}
+
+/* Mobile Responsive Fix */
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .upload-box {
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    .main-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .btn {
+        padding: 9px;
+        font-size: 13px;
+    }
+
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+    color: #e5e7eb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📸 Smart Photo Transfer</h2>
+<p class="subtitle">Multiple photo khicho • Delete karo • Download karo</p>
+
+<label class="upload-box">
+📷 Tap here to capture / select photos
+<input 
+    type="file" 
+    id="photoInput" 
+    accept="image/*"
+    multiple
+    onchange="addPhotos()"
+>
+</label>
+
+
+
+<div class="gallery" id="gallery"></div>
+
+</div>
+
+<div class="footer">
+Fast • Simple • Mobile Friendly
+</div>
+
+</div>
+
+<script>
+
+function addPhotos() {
+
+    const input = document.getElementById('photoInput');
+    const files = input.files;
+
+    if (files.length === 0) {
+        alert("Photo select karo");
+        return;
+    }
+
+    const gallery = document.getElementById('gallery');
+
+    for (let i = 0; i < files.length; i++) {
+
+        const file = files[i];
+        const url = URL.createObjectURL(file);
+
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+
+        const img = document.createElement('img');
+        img.src = url;
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'btn-group';
+
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = url;
+        downloadBtn.download = file.name;
+        downloadBtn.innerText = "⬇ Download";
+        downloadBtn.className = 'btn download-btn';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.innerText = "📋 Copy";
+        copyBtn.className = 'btn copy-btn';
+
+        copyBtn.onclick = async function () {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                await navigator.clipboard.write([
+                    new ClipboardItem({ [blob.type]: blob })
+                ]);
+
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "✅ Copied";
+                copyBtn.style.background = "linear-gradient(135deg, #16a34a, #15803d)";
+
+                setTimeout(() => {
+                    copyBtn.innerText = originalText;
+                    copyBtn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+                }, 1500);
+
+            } catch (err) {
+                copyBtn.innerText = "❌ Failed";
+                setTimeout(() => {
+                    copyBtn.innerText = "📋 Copy";
+                }, 1500);
+            }
+        };
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerText = "❌ Delete";
+        deleteBtn.className = 'btn delete-btn';
+
+        deleteBtn.onclick = function () {
+            card.style.transform = "scale(0.8)";
+            card.style.opacity = "0";
+            setTimeout(() => {
+                gallery.removeChild(card);
+            }, 200);
+        };
+
+        btnGroup.appendChild(downloadBtn);
+        btnGroup.appendChild(copyBtn);
+        btnGroup.appendChild(deleteBtn);
+
+        card.appendChild(img);
+        card.appendChild(btnGroup);
+
+        gallery.appendChild(card);
+
+    }
+
+    input.value = "";
+
+}
+
+</script>
+
+</body>
+</html>
